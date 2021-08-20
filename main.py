@@ -8,11 +8,11 @@ from dotenv import load_dotenv
 
 class Bot(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix=commands.when_mentioned_or('?'),
-                         description="Wolf Logistics & Construction Bot", )
+        super().__init__(command_prefix=commands.when_mentioned_or('!'),
+                         description="DisZen Utility Bot!", )
 
     async def on_ready(self):
-        await bot.change_presence(activity=discord.Game(name='BlueBirdRP!'))
+        await bot.change_presence(activity=discord.Activity(name='Shopping DisZen!'))
         print(f'Logged in as {self.user} (ID: {self.user.id}) with time {now}')
         print('------------------')
 
