@@ -12,7 +12,7 @@ class Bot(commands.Bot):
                          description="DisZen Utility Bot!", )
 
     async def on_ready(self):
-        await bot.change_presence(activity=discord.Activity(name='Shopping DisZen!'))
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="the DisZen shop!"))
         print(f'Logged in as {self.user} (ID: {self.user.id}) with time {now}')
         print('------------------')
 
