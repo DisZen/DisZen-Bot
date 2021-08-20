@@ -1,16 +1,40 @@
-# This is a sample Python script.
+import os
+from datetime import datetime
 
-# Press Alt+S to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import discord
+from discord.ext import commands
+from dotenv import load_dotenv
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+class Bot(commands.Bot):
+    def __init__(self):
+        super().__init__(command_prefix=commands.when_mentioned_or('?'),
+                         description="Wolf Logistics & Construction Bot", )
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    async def on_ready(self):
+        await bot.change_presence(activity=discord.Game(name='BlueBirdRP!'))
+        print(f'Logged in as {self.user} (ID: {self.user.id}) with time {now}')
+        print('------------------')
+
+
+bot = Bot()
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+
+load_dotenv()
+TOKEN = os.getenv('DISCORD-TOKEN')
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    eri = ctx.message.content
+    await ctx.send(content="", embed=discord.Embed(title="Oh no...!",
+                                                   url="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                                                   description=f"The command seems to have crashed!\n"
+                                                               f"Something went wrong with `{eri}`",
+                                                   color=0xc8142f, timestamp=datetime.utcnow()))
+    print({error})
+    print("test")
+
+
+bot.run(TOKEN)
