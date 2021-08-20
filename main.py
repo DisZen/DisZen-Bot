@@ -25,6 +25,11 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD-TOKEN')
 
 
+@bot.command(name='test')
+async def test(ctx):
+    await ctx.send("Pinged <@521408201908944907>! :)")
+
+
 @bot.event
 async def on_command_error(ctx, error):
     eri = ctx.message.content
@@ -34,7 +39,6 @@ async def on_command_error(ctx, error):
                                                                f"Something went wrong with `{eri}`",
                                                    color=0xc8142f, timestamp=datetime.utcnow()))
     print({error})
-    print("test")
 
 
 bot.run(TOKEN)
