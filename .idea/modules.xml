@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/DisZen-Bot.iml" filepath="$PROJECT_DIR$/.idea/DisZen-Bot.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../MelbourneAdv/.idea/MelbourneAdv.iml" filepath="$PROJECT_DIR$/../MelbourneAdv/.idea/MelbourneAdv.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../WolfAssistant/.idea/WolfAssistant.iml" filepath="$PROJECT_DIR$/../WolfAssistant/.idea/WolfAssistant.iml" />
     </modules>
   </component>
 </project>
