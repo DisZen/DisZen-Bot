@@ -79,6 +79,8 @@ class Bot(commands.Bot):
 
         else:
             embed.description = "Oops, an unknown error occurred."
+            print(exception)
+            print(exception)
 
         await ctx.send(embed=embed)
 
@@ -106,7 +108,6 @@ async def test(ctx):
     await ctx.send("Pinged <@521408201908944907>! :)")
 
 
-# if __name__ == '__main__':
 for file in os.listdir(cogs_dir):
     if file.endswith('.py') and isfile(join(cogs_dir, file)):
         file = file[:-3]

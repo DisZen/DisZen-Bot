@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 
-class MembersCog(commands.Cog):
+class MembersCog(commands.Cog, name="JoinLeave"):
     def __init__(self, bot):
         self.bot = bot
 

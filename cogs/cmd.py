@@ -2,14 +2,14 @@ import discord
 from discord.ext import commands
 
 
-class CmdCog(commands.Cog, name="Simple Commands"):
+class CmdCog(commands.Cog, name="Cmd"):
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='repeat', aliases=['copy', 'mimic'])
-    async def do_repeat(self, ctx, *, our_input: str):
-        await ctx.send(our_input)
+    @commands.command(name='repeat', aliases=['copy', 'mimic'], usage="<Your Input>")
+    async def do_repeat(self, ctx, *, your_input: str):
+        await ctx.send(your_input)
 
     @commands.command(name='add', aliases=['plus'])
     @commands.guild_only()
