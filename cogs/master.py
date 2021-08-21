@@ -8,7 +8,7 @@ class MasterCog(commands.Cog):
 
     @commands.command(name='load', hidden=True)
     @commands.is_owner()
-    async def cog_load(self, ctx, *, cog: str):
+    async def load_cog(self, ctx, *, cog: str):
         try:
             self.bot.load_extension(cog)
         except Exception as e:
@@ -18,7 +18,7 @@ class MasterCog(commands.Cog):
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
-    async def cog_unload(self, ctx, *, cog: str):
+    async def unload_cog(self, ctx, *, cog: str):
         try:
             self.bot.unload_extension(cog)
         except Exception as e:
@@ -28,7 +28,7 @@ class MasterCog(commands.Cog):
 
     @commands.command(name='reload', hidden=True)
     @commands.is_owner()
-    async def cog_reload(self, ctx, *, cog: str):
+    async def reload_cog(self, ctx, *, cog: str):
         try:
             self.bot.unload_extension(cog)
             self.bot.load_extension(cog)

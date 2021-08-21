@@ -9,7 +9,7 @@ class CmdCog(commands.Cog, name="Simple Commands"):
 
     @commands.command(name='repeat', aliases=['copy', 'mimic'])
     async def do_repeat(self, ctx, *, our_input: str):
-              await ctx.send(our_input)
+        await ctx.send(our_input)
 
     @commands.command(name='add', aliases=['plus'])
     @commands.guild_only()
@@ -39,9 +39,30 @@ class CmdCog(commands.Cog, name="Simple Commands"):
 
         await ctx.send(content='**A simple Embed for discord.py@rewrite in cogs.**', embed=embed)
 
-    @commands.Cog.listener()
-    async def on_member_ban(self, guild, user):
-        print(f'{user.name}-{user.id} was banned from {guild.name}-{guild.id}')
+    @commands.command(name='top_role', aliases=['toprole'])
+    @commands.guild_only()
+    async def show_toprole(self, ctx, *, member: discord.Member = None):
+        """Simple command which shows the members Top Role."""
+
+        if member is None:
+            member = ctx.author
+
+        await ctx.send(f'The top role for {member.display_name} is `{member.top_role.name}`')
+
+    @commands.command(name='perms', aliases=['perms_for', 'permissions'])
+    @commands.guild_only()
+    async def check_permissions(self, ctx, *, member: discord.Member = None):
+        if not member:
+            member = ctx.author
+
+        perms = '\n'.join(perm.capitalize() for perm, value in member.guild_permissions if value).replace('_', ' ')
+
+        embed = discord.Embed(title='Permissions for:', description=ctx.guild.name, colour=member.colour)
+        embed.set_author(icon_url=member.avatar_url, name=str(member))
+
+        embed.add_field(name='\uFEFF', value=perms)
+
+        await ctx.send(content=None, embed=embed)
 
 
 def setup(bot):

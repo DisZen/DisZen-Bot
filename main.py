@@ -1,50 +1,104 @@
 import asyncio
 import traceback
-from os import listdir
-from os.path import isfile, join
+import inspect
 
 import os
+from os.path import isfile, join
 from datetime import datetime
 
 import discord
 from discord.ext import commands
+# from discord.ext.commands import errors
 from dotenv import load_dotenv
 
 
 class Bot(commands.Bot):
-    def __init__(self):
-        super().__init__(command_prefix=commands.when_mentioned_or('!'),
-                         description="DisZen Utility Bot!", intents=intents)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     async def on_ready(self):
-        bot.loop.create_task(change_status())
+        self.loop.create_task(self.change_status())
 
+        now = str(datetime.now())[:-10]
         print(f'Logged in as {self.user} (ID: {self.user.id}) with time {now}')
         print('------------------')
+
+    async def change_status(self):
+        while True:
+            await self.change_presence(
+                activity=discord.Activity(type=discord.ActivityType.watching, name="the server with **!help**"))
+            await asyncio.sleep(10)
+            await self.change_presence(activity=discord.Streaming(name="DisZen Shop", url="https://diszen.com"))
+            await asyncio.sleep(10)
+
+    async def on_command_error(self, ctx: commands.context.Context, exception):
+        exception = getattr(exception, 'original', exception)
+
+        ignore_exceptions = (commands.CommandNotFound, )
+
+        embed = discord.Embed(colour=discord.Colour.red())
+
+        if type(exception) in ignore_exceptions:
+            return
+
+        if isinstance(exception, commands.MissingPermissions):
+            print(exception.missing_perms)
+            embed.set_author(name="Missing Permissions")
+            embed.description = "You don't have the required permissions"
+
+        elif isinstance(exception, commands.MissingRequiredArgument):
+            embed.set_author(name="Missing Required Argument")
+            embed.description = f"Missing arguments: `<{exception.param.name}>`"
+            embed.add_field(name="Correct Usage", value=f"`{PREFIX}{ctx.command} {ctx.command.usage}`")
+
+        elif isinstance(exception, commands.ArgumentParsingError):
+            print("Argument Parsing Error")
+            embed.description = "Argument Parsing Error"
+
+        elif isinstance(exception, commands.ConversionError):
+            embed.description = "Conversion Error"
+
+        elif isinstance(exception, commands.BadArgument):
+            if isinstance(exception, commands.MemberNotFound):
+                embed.set_author(name="Invalid Member")
+                embed.description = f"{exception.argument} is an invalid member"
+
+            elif isinstance(exception, commands.RoleNotFound):
+                embed.set_author(name="Invalid Role")
+                embed.description = f"{exception.argument} is an invalid role"
+
+            elif isinstance(exception, commands.ChannelNotFound):
+                embed.set_author(name="Invalid Channel")
+                embed.description = f"{exception.argument} is an invalid channel"
+
+            else:
+                print(exception)
+                print(exception.__cause__)
+                embed.set_author(name="Invalid Argument")
+                embed.description = "The argument type is invalid"
+
+        else:
+            embed.description = "Oops, an unknown error occurred."
+
+        await ctx.send(embed=embed)
 
 
 intents = discord.Intents.default()
 intents.members = True
-bot = Bot()
+PREFIX = '!'
+bot = Bot(command_prefix=commands.when_mentioned_or(PREFIX), description="DisZen Utility Bot!", intents=intents)
 
-initial_extensions = ['cogs.joinleave',
-                      'cogs.owner',
-                      'cogs.cmd']
 
-now = datetime.now()
-current_time = now.strftime("%H:%M:%S")
+initial_extensions = [
+    'cogs.joinleave',
+    'cogs.owner',
+    'cogs.cmd'
+]
+
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD-TOKEN')
 cogs_dir = "cogs"
-
-
-async def change_status():
-    while True:
-        await bot.change_presence(
-            activity=discord.Activity(type=discord.ActivityType.watching, name="the server with **!help**"))
-        await asyncio.sleep(10)
-        await bot.change_presence(activity=discord.Streaming(name="DisZen Shop", url="https://diszen.com"))
 
 
 @bot.command(name='test')
@@ -52,24 +106,15 @@ async def test(ctx):
     await ctx.send("Pinged <@521408201908944907>! :)")
 
 
-# @bot.event
-# async def on_command_error(ctx, error):
-#     eri = ctx.message.content
-#     await ctx.send(content="", embed=discord.Embed(title="Oh no...!",
-#                                                    url="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-#                                                    description=f"The command seems to have crashed!\n"
-#                                                                f"Something went wrong with `{eri}`",
-#                                                    color=0xc8142f, timestamp=datetime.utcnow()))
-
-#     print({error})
-
-if __name__ == '__main__':
-    for extension in [f.replace('.py', '') for f in listdir(cogs_dir) if isfile(join(cogs_dir, f))]:
+# if __name__ == '__main__':
+for file in os.listdir(cogs_dir):
+    if file.endswith('.py') and isfile(join(cogs_dir, file)):
+        file = file[:-3]
         try:
-            bot.load_extension(cogs_dir + "." + extension)
+            bot.load_extension(f'{cogs_dir}.{file}')
         except (discord.ClientException, ModuleNotFoundError):
-            print(f'Failed to load extension {extension}.')
+            print(f'Failed to load extension {file}.')
             traceback.print_exc()
 
+
 bot.run(TOKEN, bot=True, reconnect=True)
-# client.run(TOKEN)
