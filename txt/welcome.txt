@@ -1,0 +1,7 @@
+Everyone please welcome <@{member.id}> to the server!
+I hope you brought some pizza <@{member.id}> :)
+!! Is that <@{member.id}>??
+Yooo whas going <@{member.id}>?
+Ladies and Gents, a hearty for <@{member.id}>.
+Welcome welcome <@{member.id}>.
+<@{member.id}> has joined the game.
