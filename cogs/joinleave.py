@@ -16,19 +16,20 @@ class MembersCog(commands.Cog):
         #     random_line = random.choice(lines)
         # await client.get_channel(878356697234690079).send(f"{random_line}")
         # await client.get_channel(878356697234690079).send(f"bingus")
-        channel = self.get_channel(878356697234690079)
-        embed = discord.Embed(title=f"Welcome {member.name}",
-                              description=f"Thanks for joining {member.guild.name}!")  # F-Strings!
-        embed.set_thumbnail(url=member.avatar_url)  # Set the embed's thumbnail to the member's avatar image!
-        await channel.send(embed=embed)
-        # await ctx.send(f'{member.display_name} joined on {member.joined_at}')
+        # channel = self.get_channel(878356697234690079)
+        # embed = discord.Embed(title=f"Welcome {member.name}",
+        #                       description=f"Thanks for joining {member.guild.name}!")  # F-Strings!
+        # embed.set_thumbnail(url=member.avatar_url)  # Set the embed's thumbnail to the member's avatar image!
+        # await channel.send(embed=embed)
+        await ctx.send(f'{member.display_name} joined on {member.joined_at}')
 
     @commands.command(name='coolbot')
     async def cool_bot(self, ctx):
-        with open("txt/welcome.txt", 'r') as file:
-            lines = file.readlines()
-            random_line = random.choice(lines)
-        await ctx.send(random_line)
+        # with open("txt/welcome.txt", 'r') as file:
+        #     lines = file.readlines()
+        #     random_line = random.choice(lines)
+        # await ctx.send(random_line)
+        await ctx.send("wow".capitalize())
 
     @commands.command(name='top_role', aliases=['toprole'])
     @commands.guild_only()
@@ -38,7 +39,7 @@ class MembersCog(commands.Cog):
         if member is None:
             member = ctx.author
 
-        await ctx.send(f'The top role for {member.display_name} is {member.top_role.name}')
+        await ctx.send(f'The top role for {member.display_name} is `{member.top_role.name}`')
 
     @commands.command(name='perms', aliases=['perms_for', 'permissions'])
     @commands.guild_only()
@@ -46,12 +47,12 @@ class MembersCog(commands.Cog):
         if not member:
             member = ctx.author
 
-        perms = '\n'.join(perm for perm, value in member.guild_permissions if value)
+        perms = '\n'.join(perm.capitalize() for perm, value in member.guild_permissions if value).replace('_', ' ')
 
         embed = discord.Embed(title='Permissions for:', description=ctx.guild.name, colour=member.colour)
         embed.set_author(icon_url=member.avatar_url, name=str(member))
 
-        embed.add_field(name='\uFEFF', value=perms.replace('_', ' ').capitalize())
+        embed.add_field(name='\uFEFF', value=perms)
 
         await ctx.send(content=None, embed=embed)
 
