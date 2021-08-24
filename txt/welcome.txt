@@ -1,7 +1,11 @@
-Everyone please welcome <@{member.id}> to the server!
-I hope you brought some pizza <@{member.id}> :)
-!! Is that <@{member.id}>??
-Yooo whas going <@{member.id}>?
-Ladies and Gents, a hearty for <@{member.id}>.
-Welcome welcome <@{member.id}>.
-<@{member.id}> has joined the game.
+We were expecting you ( ͡° ͜ʖ ͡°)
+We hope you brought pizza.
+How is it going?
+We hope you enjoy your stay!
+Uh... did you bring the money I asked you for?
+Stay awhile and listen.
+Leave your weapons by the door please.
+I hope you can code.. :eyes:
+I wanna a hearty applause from @everyone!
+Wait is that really you?
+You made my day!
