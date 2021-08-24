@@ -1,14 +1,11 @@
 import asyncio
-import traceback
-import inspect
-
 import os
-from os.path import isfile, join
+import traceback
 from datetime import datetime
+from os.path import isfile, join
 
 import discord
 from discord.ext import commands
-# from discord.ext.commands import errors
 from dotenv import load_dotenv
 
 
