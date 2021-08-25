@@ -27,59 +27,15 @@ class Bot(commands.Bot):
             await asyncio.sleep(10)
             await self.change_presence(activity=discord.Streaming(name="DisZen Shop", url="https://diszen.com"))
             await asyncio.sleep(10)
-
-    async def on_command_error(self, ctx: commands.context.Context, exception):
-        exception = getattr(exception, 'original', exception)
-
-        ignore_exceptions = (commands.CommandNotFound, )
-
-        embed = discord.Embed(colour=discord.Colour.red())
-
-        if type(exception) in ignore_exceptions:
-            return
-
-        if isinstance(exception, commands.MissingPermissions):
-            print(exception.missing_perms)
-            embed.set_author(name="Missing Permissions")
-            embed.description = "You don't have the required permissions"
-
-        elif isinstance(exception, commands.MissingRequiredArgument):
-            embed.set_author(name="Missing Required Argument")
-            embed.description = f"Missing arguments: `<{exception.param.name}>`"
-            embed.add_field(name="Correct Usage", value=f"`{PREFIX}{ctx.command} {ctx.command.usage}`")
-
-        elif isinstance(exception, commands.ArgumentParsingError):
-            print("Argument Parsing Error")
-            embed.description = "Argument Parsing Error"
-
-        elif isinstance(exception, commands.ConversionError):
-            embed.description = "Conversion Error"
-
-        elif isinstance(exception, commands.BadArgument):
-            if isinstance(exception, commands.MemberNotFound):
-                embed.set_author(name="Invalid Member")
-                embed.description = f"{exception.argument} is an invalid member"
-
-            elif isinstance(exception, commands.RoleNotFound):
-                embed.set_author(name="Invalid Role")
-                embed.description = f"{exception.argument} is an invalid role"
-
-            elif isinstance(exception, commands.ChannelNotFound):
-                embed.set_author(name="Invalid Channel")
-                embed.description = f"{exception.argument} is an invalid channel"
-
-            else:
-                print(exception)
-                print(exception.__cause__)
-                embed.set_author(name="Invalid Argument")
-                embed.description = "The argument type is invalid"
-
-        else:
-            embed.description = "Oops, an unknown error occurred."
-            print(exception)
-            print(exception)
-
-        await ctx.send(embed=embed)
+            await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening,
+                                                                name="commands."))
+            await asyncio.sleep(1)
+            await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening,
+                                                                name="commands.."))
+            await asyncio.sleep(1)
+            await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening,
+                                                                name="commands..."))
+            await asyncio.sleep(8)
 
 
 intents = discord.Intents.default()
@@ -91,7 +47,8 @@ bot = Bot(command_prefix=commands.when_mentioned_or(PREFIX), description="DisZen
 initial_extensions = [
     'cogs.joinleave',
     'cogs.owner',
-    'cogs.cmd'
+    'cogs.cmd',
+    'cogs.errorhandler'
 ]
 
 
