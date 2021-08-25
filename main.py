@@ -23,7 +23,7 @@ class Bot(commands.Bot):
     async def change_status(self):
         while True:
             await self.change_presence(
-                activity=discord.Activity(type=discord.ActivityType.watching, name="the server with **!help**"))
+                activity=discord.Activity(type=discord.ActivityType.watching, name="the server!"))
             await asyncio.sleep(10)
             await self.change_presence(activity=discord.Streaming(name="DisZen Shop", url="https://diszen.com"))
             await asyncio.sleep(10)
