@@ -1,3 +1,5 @@
+import os
+
 from discord.ext import commands
 import discord
 import inspect
@@ -8,7 +10,7 @@ class MasterCog(commands.Cog, name="Master"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='load', hidden=True)
+    @commands.command(name='load', hidden=True, usage="<cog>")
     @commands.has_role('*')
     async def load_cog(self, ctx, *, cog: str):
         try:
@@ -24,7 +26,7 @@ class MasterCog(commands.Cog, name="Master"):
             embed.description = f"Successfully reloaded {cog}!"
             await ctx.send(embed=embed)
 
-    @commands.command(name='unload', hidden=True)
+    @commands.command(name='unload', hidden=True, usage="<cog>")
     @commands.has_role('*')
     async def unload_cog(self, ctx, *, cog: str):
         try:
@@ -40,7 +42,7 @@ class MasterCog(commands.Cog, name="Master"):
             embed.description = f"Successfully reloaded {cog}!"
             await ctx.send(embed=embed)
 
-    @commands.command(name='reload', hidden=True)
+    @commands.command(name='reload', hidden=True, usage="<cog>")
     @commands.has_role('*')
     async def reload_cog(self, ctx, *, cog: str):
         try:
@@ -61,7 +63,7 @@ class MasterCog(commands.Cog, name="Master"):
     @commands.has_role('*')
     async def list_cogs(self, ctx):
         ListOfCogs = self.bot.cogs
-        cognames = '\n- '.join(NameOfCog.capitalize() for NameOfCog, TheClassOfCog in ListOfCogs.items())
+        cognames = '\n- '.join(NameOfCog for NameOfCog, TheClassOfCog in ListOfCogs.items())
 
         embed = discord.Embed(title='', description=f'There are **{len(ListOfCogs)}** cogs', colour=ctx.author.colour)
         embed.set_author(icon_url=self.bot.user.avatar_url, name=ctx.guild.name)
@@ -102,6 +104,34 @@ class MasterCog(commands.Cog, name="Master"):
         embed.set_author(name="Code:")
         embed.description = python.format(result)
         await ctx.send(embed=embed)
+
+    @commands.command(name='stop', hidden=True)
+    @commands.has_role('*')
+    async def stop(self, ctx):
+        try:
+            embed = discord.Embed(colour=0x00101c34)
+            embed.description = "Closing bot!"
+            await ctx.send(embed=embed)
+            await self.bot.close()
+        except:
+            embed = discord.Embed(colour=0x00101c34)
+            embed.description = "Error!"
+            await ctx.send(embed=embed)
+            pass
+
+    @commands.command(name='clean', hidden=True)
+    @commands.has_role('*')
+    async def clean(self, ctx):
+        try:
+            embed = discord.Embed(colour=0x00101c34)
+            embed.description = "Cleaning bot!"
+            await ctx.send(embed=embed)
+            await self.bot.clear()
+        except:
+            embed = discord.Embed(colour=0x00101c34)
+            embed.description = "Error!"
+            await ctx.send(embed=embed)
+            pass
 
 
 def setup(bot):
