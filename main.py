@@ -56,12 +56,6 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD-TOKEN')
 cogs_dir = "cogs"
 
-
-@bot.command(name='test')
-async def test(ctx):
-    await ctx.send("Pinged <@521408201908944907>! :)")
-
-
 for file in os.listdir(cogs_dir):
     if file.endswith('.py') and isfile(join(cogs_dir, file)):
         file = file[:-3]
