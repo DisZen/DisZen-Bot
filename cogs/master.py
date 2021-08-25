@@ -5,16 +5,17 @@ import discord
 import inspect
 
 
-class MasterCog(commands.Cog, name="Master"):
+class MasterCog(commands.Cog, name="master"):
 
     def __init__(self, bot):
         self.bot = bot
+        self.cogs_dir = cogs_dir = "cogs"
 
     @commands.command(name='load', hidden=True, usage="<cog>")
     @commands.has_role('*')
     async def load_cog(self, ctx, *, cog: str):
         try:
-            self.bot.load_extension(cog)
+            self.bot.load_extension(f'{self.cogs_dir}.{cog}')
         except Exception as e:
             embed = discord.Embed(colour=discord.Colour.red())
             embed.set_author(name=f"{type(e).__name__}")
@@ -30,7 +31,7 @@ class MasterCog(commands.Cog, name="Master"):
     @commands.has_role('*')
     async def unload_cog(self, ctx, *, cog: str):
         try:
-            self.bot.unload_extension(cog)
+            self.bot.unload_extension(f'{self.cogs_dir}.{cog}')
         except Exception as e:
             embed = discord.Embed(colour=discord.Colour.red())
             embed.set_author(name=f"{type(e).__name__}")
@@ -46,8 +47,8 @@ class MasterCog(commands.Cog, name="Master"):
     @commands.has_role('*')
     async def reload_cog(self, ctx, *, cog: str):
         try:
-            self.bot.unload_extension(cog)
-            self.bot.load_extension(cog)
+            self.bot.unload_extension(f'{self.cogs_dir}.{cog}')
+            self.bot.load_extension(f'{self.cogs_dir}.{cog}')
         except Exception as e:
             embed = discord.Embed(colour=discord.Colour.red())
             embed.set_author(name=f"{type(e).__name__}")
