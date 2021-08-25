@@ -53,6 +53,9 @@ class ErrorHandler(commands.Cog, name="errorhandler"):
         elif isinstance(exception, commands.ConversionError):
             embed.description = "Conversion Error"
 
+        elif isinstance(exception, commands.CommandNotFound):
+            return
+
         elif isinstance(exception, commands.BadArgument):
             if isinstance(exception, commands.MemberNotFound):
                 embed.set_author(name="Invalid Member")
