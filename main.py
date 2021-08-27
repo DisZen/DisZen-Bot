@@ -54,7 +54,8 @@ initial_extensions = [
     'cogs.cmd',
     'cogs.errorhandler',
     'cogs.help',
-    'cogs.moderation'
+    'cogs.moderation',
+    'cogs.webhook'
 ]
 
 
