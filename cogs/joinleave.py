@@ -10,7 +10,7 @@ class MembersCog(commands.Cog, name="joinleave"):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        with open("txt/welcome.txt", 'r') as file:
+        with open("data/welcome.data", 'r') as file:
             lines = file.readlines()
             random_line = random.choice(lines)
 
@@ -23,7 +23,7 @@ class MembersCog(commands.Cog, name="joinleave"):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        with open("txt/bye.txt", 'r') as file:
+        with open("data/bye.data", 'r') as file:
             lines = file.readlines()
             random_line = random.choice(lines)
 

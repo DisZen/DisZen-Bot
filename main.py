@@ -50,9 +50,11 @@ bot = Bot(command_prefix=commands.when_mentioned_or(PREFIX), description="DisZen
 
 initial_extensions = [
     'cogs.joinleave',
-    'cogs.owner',
+    'cogs.master',
     'cogs.cmd',
-    'cogs.errorhandler'
+    'cogs.errorhandler',
+    'cogs.help',
+    'cogs.moderation'
 ]
 
 

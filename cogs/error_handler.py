@@ -9,6 +9,7 @@ import main
 class ErrorHandler(commands.Cog, name="errorhandler"):
     def __init__(self, bot):
         self.bot = bot
+        self.prefix = main.PREFIX
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: commands.context.Context, exception):
@@ -43,7 +44,7 @@ class ErrorHandler(commands.Cog, name="errorhandler"):
         elif isinstance(exception, commands.MissingRequiredArgument):
             embed.set_author(name="Missing Required Argument")
             embed.description = f"Missing arguments: `<{exception.param.name}>`"
-            embed.add_field(name="Correct Usage", value=f"`{main.PREFIX}{ctx.command} {ctx.command.usage}`")
+            embed.add_field(name="Correct Usage", value=f"`{self.prefix}{ctx.command} {ctx.command.usage}`")
 
         elif isinstance(exception, commands.ArgumentParsingError):
             print("Argument Parsing Error")
