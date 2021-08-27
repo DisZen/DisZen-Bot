@@ -12,6 +12,10 @@ from dotenv import load_dotenv
 class Bot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        if 'prefix' in kwargs.keys():
+            self.prefix = kwargs['prefix']
+        else:
+            self.prefix = None
 
     async def on_ready(self):
         self.loop.create_task(self.change_status())
@@ -41,7 +45,7 @@ class Bot(commands.Bot):
 intents = discord.Intents.default()
 intents.members = True
 PREFIX = '!'
-bot = Bot(command_prefix=commands.when_mentioned_or(PREFIX), description="DisZen Utility Bot!", intents=intents)
+bot = Bot(command_prefix=commands.when_mentioned_or(PREFIX), description="DisZen Utility Bot!", intents=intents, prefix=PREFIX)
 
 
 initial_extensions = [
@@ -54,7 +58,7 @@ initial_extensions = [
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD-TOKEN')
-cogs_dir = "cogs"
+cogs_dir = 'cogs'
 
 for file in os.listdir(cogs_dir):
     if file.endswith('.py') and isfile(join(cogs_dir, file)):

@@ -49,15 +49,6 @@ class CmdCog(commands.Cog, name="cmd"):
 
         await ctx.send(content=None, embed=embed)
 
-    @commands.command(name='purge', hidden=True)
-    @commands.has_role('*')
-    async def purge(self, ctx, num: int):
-        channel = ctx.channel
-        await channel.purge(limit=num+1)
-        mess = await ctx.send(embed=discord.Embed(title="Messages purged", description=f"Purged **{num}** messages!",
-                                                  color=0x838181))
-        await asyncio.sleep(3)
-        await mess.delete()
 
 def setup(bot):
     bot.add_cog(CmdCog(bot))

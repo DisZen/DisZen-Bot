@@ -9,7 +9,7 @@ class MasterCog(commands.Cog, name="master"):
 
     def __init__(self, bot):
         self.bot = bot
-        self.cogs_dir = cogs_dir = "cogs"
+        self.cogs_dir = "cogs"
 
     @commands.command(name='load', hidden=True, usage="<cog>")
     @commands.has_role('*')
@@ -63,13 +63,13 @@ class MasterCog(commands.Cog, name="master"):
     @commands.command(name='listcogs', hidden=True)
     @commands.has_role('*')
     async def list_cogs(self, ctx):
-        ListOfCogs = self.bot.cogs
-        cognames = '\n- '.join(NameOfCog for NameOfCog, TheClassOfCog in ListOfCogs.items())
+        cogs = self.bot.cogs
+        cog_names = '\n- '.join(NameOfCog for NameOfCog, TheClassOfCog in cogs.items())
 
-        embed = discord.Embed(title='', description=f'There are **{len(ListOfCogs)}** cogs', colour=ctx.author.colour)
+        embed = discord.Embed(title='', description=f'There are **{len(cogs)}** cogs', colour=ctx.author.colour)
         embed.set_author(icon_url=self.bot.user.avatar_url, name=ctx.guild.name)
 
-        embed.add_field(name='\uFEFF', value=f'- {cognames}')
+        embed.add_field(name='\uFEFF', value=f'- {cog_names}')
         await ctx.send(embed=embed)
 
     @commands.command(pass_context=True, hidden=True)
